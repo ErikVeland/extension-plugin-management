@@ -1,3 +1,5 @@
+@import "variables";
+
 #table-gamebryo-plugins {
   // prevent word wrap
   .table-header-cell {
@@ -281,4 +283,56 @@
 
 .loot-messages-warnings {
   color: $brand-warning;
+}
+
+.plugin-management {
+  .plugin-list {
+    margin-top: $half-gutter;
+    border: $border-width solid $border-color;
+    border-radius: $border-radius-base;
+  }
+
+  .plugin-entry {
+    padding: $half-gutter;
+    border-bottom: $border-width solid $border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.active {
+      background-color: rgba($brand-primary, 0.1);
+    }
+
+    &.inactive {
+      opacity: 0.6;
+    }
+  }
+
+  .plugin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $half-gutter;
+  }
+
+  .plugin-name {
+    font-weight: bold;
+  }
+
+  .plugin-version {
+    color: $text-color-disabled;
+    font-size: 0.9em;
+  }
+
+  .plugin-description {
+    margin-top: $half-gutter;
+    margin-bottom: $half-gutter;
+  }
+
+  .plugin-actions {
+    display: flex;
+    gap: $half-gutter;
+    margin-top: $half-gutter;
+  }
 }
