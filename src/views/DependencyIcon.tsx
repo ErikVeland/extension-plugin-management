@@ -252,13 +252,13 @@ class DependencyIcon extends ComponentEx<IProps, IComponentState> {
       || (util.getSafe(refPlugin, [quickEdit.mode], []).indexOf(plugin.id) !== -1);
 
     const tooltipText = t('load {{ reference }} after {{ name }}',
-      {
-        replace: {
-          name: plugin.name,
-          reference: quickEdit.plugin,
-        },
-        ns: NAMESPACE,
-      });
+                          {
+                            replace: {
+                              name: plugin.name,
+                              reference: quickEdit.plugin,
+                            },
+                            ns: NAMESPACE,
+                          });
     return (
       <div style={{ textAlign: 'center', width: '100%' }}>
         <tooltip.ToggleButton
@@ -316,14 +316,14 @@ class DependencyIcon extends ComponentEx<IProps, IComponentState> {
         || (lootRules.rw.req && (lootRules.rw.req.length > 0))) {
       popoverBlocks.push((
         <div key='requires'>
-        {t('Requires:', { ns: NAMESPACE })}
-        <ul>
-          {Array.from(util.getSafe(lootRules, ['ro', 'req'], []).map(
-            ref => this.renderRule(ref, 'requires', true)))}
-          {Array.from(util.getSafe(lootRules, ['rw', 'req'], []).map(
-            ref => this.renderRule(ref, 'requires', false)))}
-        </ul>
-      </div>
+          {t('Requires:', { ns: NAMESPACE })}
+          <ul>
+            {Array.from(util.getSafe(lootRules, ['ro', 'req'], []).map(
+              ref => this.renderRule(ref, 'requires', true)))}
+            {Array.from(util.getSafe(lootRules, ['rw', 'req'], []).map(
+              ref => this.renderRule(ref, 'requires', false)))}
+          </ul>
+        </div>
       ));
     }
 
@@ -331,14 +331,14 @@ class DependencyIcon extends ComponentEx<IProps, IComponentState> {
       || (lootRules.rw.inc && (lootRules.rw.inc.length > 0))) {
       popoverBlocks.push((
         <div key='incompatible'>
-        {t('Incompatible:', { ns: NAMESPACE })}
-        <ul>
-          {Array.from(util.getSafe(lootRules, ['ro', 'inc'], []).map(
-            ref => this.renderRule(ref, 'incompatible', true)))}
-          {Array.from(util.getSafe(lootRules, ['rw', 'inc'], []).map(
-            ref => this.renderRule(ref, 'incompatible', false)))}
-        </ul>
-      </div>
+          {t('Incompatible:', { ns: NAMESPACE })}
+          <ul>
+            {Array.from(util.getSafe(lootRules, ['ro', 'inc'], []).map(
+              ref => this.renderRule(ref, 'incompatible', true)))}
+            {Array.from(util.getSafe(lootRules, ['rw', 'inc'], []).map(
+              ref => this.renderRule(ref, 'incompatible', false)))}
+          </ul>
+        </div>
       ));
     }
 
@@ -367,27 +367,27 @@ class DependencyIcon extends ComponentEx<IProps, IComponentState> {
     );
 
     const connectorIcon = connectDragSource((
-        <div style={{ display: 'inline' }}>
-          <tooltip.IconButton
-            id={`btn-meta-data-${plugin.id}`}
-            className={classes.join(' ')}
-            key={`rules-${plugin.id}`}
-            tooltip={t('Drag to another plugin to set userlist rule', { ns: NAMESPACE })}
-            icon='connection'
-            ref={this.setRef}
-            onClick={this.toggleOverlay}
-          />
-          <Overlay
-            show={this.state.showOverlay}
-            onHide={this.hideOverlay}
-            placement='left'
-            rootClose={true}
-            target={this.mRef as any}
-          >
-            {popover}
-          </Overlay>
-        </div>
-        ));
+      <div style={{ display: 'inline' }}>
+        <tooltip.IconButton
+          id={`btn-meta-data-${plugin.id}`}
+          className={classes.join(' ')}
+          key={`rules-${plugin.id}`}
+          tooltip={t('Drag to another plugin to set userlist rule', { ns: NAMESPACE })}
+          icon='connection'
+          ref={this.setRef}
+          onClick={this.toggleOverlay}
+        />
+        <Overlay
+          show={this.state.showOverlay}
+          onHide={this.hideOverlay}
+          placement='left'
+          rootClose={true}
+          target={this.mRef as any}
+        >
+          {popover}
+        </Overlay>
+      </div>
+    ));
 
     return connectDropTarget((
       <div style={{ textAlign: 'center', width: '100%' }}>
@@ -499,4 +499,4 @@ function mapDispatchToProps(dispatch): IActionProps {
 
 export default
   connect(mapStateToProps, mapDispatchToProps)(
-      DependencyIconDrag) as React.ComponentClass<IBaseProps>;
+    DependencyIconDrag) as React.ComponentClass<IBaseProps>;

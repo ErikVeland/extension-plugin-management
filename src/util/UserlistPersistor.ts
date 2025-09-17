@@ -41,7 +41,7 @@ class UserlistPersistor implements types.IPersistor {
     this.mLoadedPromise = new Promise((resolve, reject) => {
       this.mOnLoaded = resolve;
     });
-}
+  }
 
   public wait(): Promise<void> {
     return this.mLoadedPromise;
@@ -101,7 +101,7 @@ class UserlistPersistor implements types.IPersistor {
 
   public getAllKeys(): Promise<string[][]> {
     return Promise.resolve([].concat(['__isLoaded'], Object.keys(this.mUserlist))
-                             .map(key => [key]));
+      .map(key => [key]));
   }
 
   private mOnLoaded: () => void = () => null;
@@ -226,68 +226,68 @@ class UserlistPersistor implements types.IPersistor {
     let empty: boolean = false;
 
     return fs.readFileAsync(this.mUserlistPath)
-    .then((data: Buffer) => {
-      if (data.byteLength <= 5) {
+      .then((data: Buffer) => {
+        if (data.byteLength <= 5) {
         // the smallest non-empty file is actually around 20 bytes long and
         // the smallest useful file probably 30. This is really to catch
         // cases where the file is not parseable because it's completely empty
         // or contains only "null" or something silly like that
-        empty = true;
-      }
-
-      let newList: Partial<ILOOTList> = {};
-      try {
-        newList = safeLoad(data.toString(), { json: true }) as any;
-      } catch (err) {
-        this.handleInvalidList();
-      }
-      if (typeof (newList) !== 'object') {
-        this.handleInvalidList();
-      }
-
-      ['globals', 'plugins', 'groups'].forEach(key => {
-        if ([null, undefined].indexOf(newList[key]) !== -1) {
-          newList[key] = [];
+          empty = true;
         }
-      });
 
-      const newPlugins = this.makeCaseInsensitive(newList.plugins);
-      const didChange = (newPlugins.length !== newList.plugins.length);
-      newList.plugins = newPlugins;
+        let newList: Partial<ILOOTList> = {};
+        try {
+          newList = safeLoad(data.toString(), { json: true }) as any;
+        } catch (err) {
+          this.handleInvalidList();
+        }
+        if (typeof (newList) !== 'object') {
+          this.handleInvalidList();
+        }
 
-      this.mUserlist = newList as ILOOTList;
-      if (this.mResetCallback) {
-        this.mResetCallback();
-        this.mLoaded = true;
-        this.mOnLoaded();
-      }
-      if (didChange) {
-        return this.serialize();
-      } else {
-        return Promise.resolve();
-      }
-    })
-    .catch(err => {
-      if ((err.code === 'ENOENT') || empty) {
-        this.mUserlist = {
-          globals: [],
-          plugins: [],
-          groups: [],
-        };
-        this.mLoaded = true;
-        this.mOnLoaded();
-        return this.serialize();
-      } else {
+        ['globals', 'plugins', 'groups'].forEach(key => {
+          if ([null, undefined].indexOf(newList[key]) !== -1) {
+            newList[key] = [];
+          }
+        });
+
+        const newPlugins = this.makeCaseInsensitive(newList.plugins);
+        const didChange = (newPlugins.length !== newList.plugins.length);
+        newList.plugins = newPlugins;
+
+        this.mUserlist = newList as ILOOTList;
+        if (this.mResetCallback) {
+          this.mResetCallback();
+          this.mLoaded = true;
+          this.mOnLoaded();
+        }
+        if (didChange) {
+          return this.serialize();
+        } else {
+          return Promise.resolve();
+        }
+      })
+      .catch(err => {
+        if ((err.code === 'ENOENT') || empty) {
+          this.mUserlist = {
+            globals: [],
+            plugins: [],
+            groups: [],
+          };
+          this.mLoaded = true;
+          this.mOnLoaded();
+          return this.serialize();
+        } else {
         // if we can't read the file but the file is there,
         // we would be destroying its content if we don't quit right now.
-        util.terminate({
-          message: 'Failed to read userlist file for this game. '
+          util.terminate({
+            message: 'Failed to read userlist file for this game. '
                  + 'Repair or delete this file and then try to start Vortex again',
-          path: this.mUserlistPath,
-          details: `Error: ${err.message}`,
-        }, undefined, false);
-      }
-    });
+            path: this.mUserlistPath,
+            details: `Error: ${err.message}`,
+          }, undefined, false);
+        }
+      });
   }
 }
 

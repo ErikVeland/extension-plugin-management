@@ -126,50 +126,50 @@ class Editor extends ComponentEx<IProps, IComponentState> {
                 style={{ maxWidth: '50%' }}
               />
               <ListGroup className='userlist-existing-rules'>
-              {userlist.filter(this.filterList).map(this.renderRules)}
+                {userlist.filter(this.filterList).map(this.renderRules)}
               </ListGroup>
               <hr />
-                <div className='userlist-add-controls'>
-                  <Select
-                    className='userlist-select-plugin'
-                    options={pluginOptions}
-                    clearable={false}
-                    placeholder={t('Select Plugin...')}
-                    value={dialog.pluginId}
-                    onChange={this.selectPlugin}
-                  />
-                  <Select
-                    options={[
-                      { value: 'after', label: t('Must Load After') },
-                      { value: 'requires', label: t('Requires') },
-                      { value: 'incompatible', label: t('Is Incompatible With') },
-                    ]}
-                    value={dialog.type}
-                    clearable={false}
-                    onChange={this.selectType}
-                  />
-                  <Select
-                    className='userlist-select-plugin select-pull-right'
-                    options={pluginOptions}
-                    clearable={false}
-                    placeholder={t('Select Plugin...')}
-                    value={dialog.reference}
-                    onChange={this.selectReference}
-                  />
-                  <tooltip.IconButton
-                    icon='swap'
-                    tooltip=''
-                    title={t('Swap')}
-                    onClick={this.swapPlugins}
-                  />
-                  <tooltip.Button
-                    tooltip=''
-                    onClick={this.add}
-                    disabled={(dialog.pluginId === undefined) || (dialog.reference === undefined)}
-                  >
-                    {t('Add')}
-                  </tooltip.Button>
-                </div>
+              <div className='userlist-add-controls'>
+                <Select
+                  className='userlist-select-plugin'
+                  options={pluginOptions}
+                  clearable={false}
+                  placeholder={t('Select Plugin...')}
+                  value={dialog.pluginId}
+                  onChange={this.selectPlugin}
+                />
+                <Select
+                  options={[
+                    { value: 'after', label: t('Must Load After') },
+                    { value: 'requires', label: t('Requires') },
+                    { value: 'incompatible', label: t('Is Incompatible With') },
+                  ]}
+                  value={dialog.type}
+                  clearable={false}
+                  onChange={this.selectType}
+                />
+                <Select
+                  className='userlist-select-plugin select-pull-right'
+                  options={pluginOptions}
+                  clearable={false}
+                  placeholder={t('Select Plugin...')}
+                  value={dialog.reference}
+                  onChange={this.selectReference}
+                />
+                <tooltip.IconButton
+                  icon='swap'
+                  tooltip=''
+                  title={t('Swap')}
+                  onClick={this.swapPlugins}
+                />
+                <tooltip.Button
+                  tooltip=''
+                  onClick={this.add}
+                  disabled={(dialog.pluginId === undefined) || (dialog.reference === undefined)}
+                >
+                  {t('Add')}
+                </tooltip.Button>
+              </div>
             </Modal.Body>
           )
           : null}
@@ -177,7 +177,7 @@ class Editor extends ComponentEx<IProps, IComponentState> {
           <Button onClick={this.close}>{t('Close')}</Button>
         </Modal.Footer>
       </Modal>
-      );
+    );
   }
 
   private renderRules = (userlistItem: ILOOTPlugin) => {

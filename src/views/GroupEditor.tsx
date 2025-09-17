@@ -55,7 +55,7 @@ class GroupEditor extends ComponentEx<IProps, IComponentState> {
       show: true,
       action: () => this.removeSelection(),
     },
-   ];
+  ];
 
   private contextBGActions = [
     {
@@ -86,7 +86,7 @@ class GroupEditor extends ComponentEx<IProps, IComponentState> {
   public UNSAFE_componentWillReceiveProps(newProps: IProps) {
     if ((this.props.userlist !== newProps.userlist)
         || (this.props.masterlist !== newProps.masterlist)) {
-     this.nextState.elements = this.genElements(newProps);
+      this.nextState.elements = this.genElements(newProps);
     }
   }
 
@@ -192,7 +192,7 @@ class GroupEditor extends ComponentEx<IProps, IComponentState> {
         return res;
       },
     }, [{ label: 'Cancel' }, { label: 'Add', default: true }])
-    .then((result: types.IDialogResult) => {
+      .then((result: types.IDialogResult) => {
         if (result.action === 'Add') {
           onAddGroup(result.input.newGroup);
         }
@@ -201,7 +201,7 @@ class GroupEditor extends ComponentEx<IProps, IComponentState> {
 
   private reset = () => {
     const { onRemoveGroup, onRemoveGroupRule, onSetGroup,
-            onShowDialog, masterlist, userlist } = this.props;
+      onShowDialog, masterlist, userlist } = this.props;
     onShowDialog('question', 'Reset Customisations', {
       text: 'This will remove customizations you have made to groups. This can\'t be undone!',
       checkboxes: [
@@ -209,48 +209,48 @@ class GroupEditor extends ComponentEx<IProps, IComponentState> {
         { id: 'custom_groups', text: 'Remove custom groups', value: true },
       ],
     }, [ { label: 'Cancel' }, { label: 'Continue' } ])
-    .then((result: types.IDialogResult) => {
-      if (result.action === 'Cancel') {
-        return;
-      }
-      const masterlistGroups = new Set<string>(masterlist.groups.map(group => group.name));
-      if (result.input.custom_groups) {
+      .then((result: types.IDialogResult) => {
+        if (result.action === 'Cancel') {
+          return;
+        }
+        const masterlistGroups = new Set<string>(masterlist.groups.map(group => group.name));
+        if (result.input.custom_groups) {
         // unassign all plugins from custom groups
-        userlist.plugins
-          .forEach(plugin => {
-            if ((plugin.group !== undefined) && !masterlistGroups.has(plugin.group)) {
-              onSetGroup(plugin.name, undefined);
-            }
-          });
+          userlist.plugins
+            .forEach(plugin => {
+              if ((plugin.group !== undefined) && !masterlistGroups.has(plugin.group)) {
+                onSetGroup(plugin.name, undefined);
+              }
+            });
         // remove all references from masterlist groups to custom groups
-        userlist.groups
-          .filter(group => masterlistGroups.has(group.name))
-          .forEach(group => {
-            (group.after || [])
-              .filter(after => !masterlistGroups.has(after))
-              .forEach(after => {
-                onRemoveGroupRule(group.name, after);
-              });
-          });
+          userlist.groups
+            .filter(group => masterlistGroups.has(group.name))
+            .forEach(group => {
+              (group.after || [])
+                .filter(after => !masterlistGroups.has(after))
+                .forEach(after => {
+                  onRemoveGroupRule(group.name, after);
+                });
+            });
         // remove all custom groups
-        userlist.groups
-          .filter(group => !masterlistGroups.has(group.name))
-          .forEach(group => {
-            onRemoveGroup(group.name);
-          });
-      }
+          userlist.groups
+            .filter(group => !masterlistGroups.has(group.name))
+            .forEach(group => {
+              onRemoveGroup(group.name);
+            });
+        }
 
       // do the default groups second, otherwise we'd have to update the userlist object
       // for th custom_groups step to work
-      if (result.input.default_groups) {
+        if (result.input.default_groups) {
         // remove all groups known in the masterlist from the userlist
-        userlist.groups
-          .filter(group => masterlistGroups.has(group.name))
-          .forEach(group => {
-            onRemoveGroup(group.name);
-          });
-      }
-    });
+          userlist.groups
+            .filter(group => masterlistGroups.has(group.name))
+            .forEach(group => {
+              onRemoveGroup(group.name);
+            });
+        }
+      });
   }
 
   private openContext = (x: number, y: number, selection: IGraphSelection) => {

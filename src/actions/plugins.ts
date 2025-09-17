@@ -23,8 +23,8 @@ export const setPluginFilePath =
       ({ pluginId, filePath }));
 
 export const updatePluginWarnings = createAction('UPDATE_PLUGIN_WARNING',
-  (id: string, warning: string, value: boolean) => ({ id, warning, value }),
-  uiOnlyMeta);
+                                                 (id: string, warning: string, value: boolean) => ({ id, warning, value }),
+                                                 uiOnlyMeta);
 
 export const incrementNewPluginCounter = createAction('INCREMENT_NEW_PLUGIN_COUNTER', (counter: number) => ({ counter }));
 export const clearNewPluginCounter = createAction('CLEAR_NEW_PLUGIN_COUNTER');

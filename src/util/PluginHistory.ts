@@ -30,8 +30,8 @@ class PluginHistory implements types.IHistoryStack {
       return (data.oldState === true)
         ? 'Enable'
         : (data.wasGhost === 'ghost')
-        ? 'Ghost'
-        : 'Disable';
+          ? 'Ghost'
+          : 'Disable';
     };
 
     this.mEventTypes = {
@@ -163,7 +163,7 @@ class PluginHistory implements types.IHistoryStack {
         describe: evt =>
           api.translate('Plugins were sorted'),
       },
-   };
+    };
   }
 
   public init() {

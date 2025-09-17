@@ -18,12 +18,12 @@ export class PluginFlagFilterComponent extends React.Component<types.IFilterProp
     }));
 
     return (
-    <Select
-      className='select-compact'
-      options={currentFilters}
-      value={filter || ''}
-      onChange={this.changeFilter}
-    />);
+      <Select
+        className='select-compact'
+        options={currentFilters}
+        value={filter || ''}
+        onChange={this.changeFilter}
+      />);
   }
 
   private changeFilter = (value: { value: string, label: string }) => {

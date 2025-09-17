@@ -1,4 +1,4 @@
-let webpack = require('vortex-api/bin/webpack').default;
+const webpack = require('vortex-api/bin/webpack').default;
 
 config = webpack('gamebryo-plugin-management-async', __dirname, 5);
 

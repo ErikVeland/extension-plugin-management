@@ -20,14 +20,14 @@ export class PluginStatusFilterComponent extends React.Component<types.IFilterPr
     ];
 
     return (
-    <Select
-      className='select-compact'
-      options={currentFilters}
-      value={filter || ''}
-      onChange={this.changeFilter}
-      searchable={false}
-      onInputChange={nop}
-    />);
+      <Select
+        className='select-compact'
+        options={currentFilters}
+        value={filter || ''}
+        onChange={this.changeFilter}
+        searchable={false}
+        onInputChange={nop}
+      />);
   }
 
   private changeFilter = (value: { value: string, label: string }) => {
