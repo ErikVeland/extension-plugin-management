@@ -5,7 +5,7 @@ import {gameSupported} from './gameSupport';
 import * as RemoteT from '@electron/remote';
 import Promise from 'bluebird';
 import { dialog as dialogIn } from 'electron';
-import { safeDump, safeLoad } from 'js-yaml';
+import { dump, load } from 'js-yaml';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { fs, types, util } from 'vortex-api';
@@ -139,7 +139,7 @@ class UserlistPersistor implements types.IPersistor {
     const userlistPath = this.mUserlistPath;
 
     return fs.writeFileAsync(userlistPath + '.tmp',
-                             safeDump(_.omit(this.mUserlist, ['__isLoaded'])))
+                             dump(_.omit(this.mUserlist, ['__isLoaded'])))
       .then(() => fs.renameAsync(userlistPath + '.tmp', userlistPath))
       .then(() => { this.mFailed = false; })
       .catch(util.UserCanceled, () => undefined)
@@ -235,11 +235,19 @@ class UserlistPersistor implements types.IPersistor {
           empty = true;
         }
 
-        let newList: Partial<ILOOTList> = {};
-        try {
-          newList = safeLoad(data.toString(), { json: true }) as any;
-        } catch (err) {
-          this.handleInvalidList();
+      let newList: Partial<ILOOTList> = {};
+      try {
+        newList = load(data.toString(), { json: true }) as any;
+      } catch (err) {
+        this.handleInvalidList();
+      }
+      if (typeof (newList) !== 'object') {
+        this.handleInvalidList();
+      }
+
+      ['globals', 'plugins', 'groups'].forEach(key => {
+        if ([null, undefined].indexOf(newList[key]) !== -1) {
+          newList[key] = [];
         }
         if (typeof (newList) !== 'object') {
           this.handleInvalidList();

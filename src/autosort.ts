@@ -162,18 +162,16 @@ class LootInterface {
           (state.loadOrder[pluginKey] || { loadOrder: -1 }).loadOrder;
 
         const isValid = (pluginKey: string) => {
-          const isEnabled = state.loadOrder?.[pluginKey]?.enabled || false;
+          const isDeployed = pluginList[pluginKey]?.deployed || false;
+          const isGhost = pluginList[pluginKey]?.filePath && path.extname(pluginList[pluginKey]?.filePath) === GHOST_EXT;
           const isNative = pluginList[pluginKey]?.isNative || false;
-          return isEnabled || isNative;
+          return (isDeployed && !isGhost) || isNative;
         }
 
         let pluginIds: string[] = Object
           // from all plugins
           .keys(pluginList)
-          // sort only the ones that are deployed
-          .filter((pluginId: string) => isValid(pluginId)
-            && (pluginList[pluginId].deployed
-            && path.extname(pluginList[pluginId].filePath) !== GHOST_EXT))
+          .filter((pluginId: string) => isValid(pluginId))
           // apply existing ordering (as far as available)
           .sort((lhs, rhs) => lo(lhs) - lo(rhs));
 
@@ -192,6 +190,12 @@ class LootInterface {
       if (callback !== undefined) {
         callback(null);
       }
+      this.mExtensionApi.sendNotification({
+        id: 'loot-sorted',
+        type: 'success',
+        message: 'LOOT sorting successful',
+        displayMS: 3000,
+      });
       return Promise.resolve();
     } catch (err) {
       if (callback !== undefined) {
